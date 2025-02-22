@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Capital & Crypto Investment Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container-fluid {
+            padding: 30px;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control,
+        .form-select {
+            font-size: 1.1rem;
+            padding: 10px;
+        }
+
+        .result p {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .lang-switch {
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 id="title">💰 Capital & Crypto Investment Management</h2>
+            <span class="lang-switch" onclick="switchLanguage()">🇺🇸 English / 🇻🇳 Tiếng Việt</span>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card p-4">
+                    <h4 id="section1_title">1️⃣ <span id="capital_management">Capital Management</span></h4>
+                    <label for="capitalStrategy" id="label_strategy">Select Capital Strategy:</label>
+                    <select id="capitalStrategy" class="form-select" onchange="calculateBudget()">
+                        <option value="30-50-20" selected id="option_30_50_20"></option>
+                        <option value="40-40-20" id="option_40_40_20"></option>
+                        <option value="50-30-20" id="option_50_30_20"></option>
+                    </select>
+                    <label for="totalAmount" class="mt-2" id="label_total">Enter Total Amount:</label>
+                    <input type="number" id="totalAmount" class="form-control" value="10000"
+                        oninput="calculateBudget()">
+                    <div class="result mt-3" id="budgetResult"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="card p-4">
+                    <h4 id="section2_title">2️⃣ <span id="investment_allocation">Investment Allocation</span></h4>
+                    <label for="investmentAmount" id="label_investment">Investment Amount:</label>
+                    <input type="number" id="investmentAmount" class="form-control" readonly>
+                    <label for="months" class="mt-2" id="label_months">Investment Duration (Months):</label>
+                    <input type="number" id="months" class="form-control" value="3" oninput="calculateInvestment()">
+                    <div class="result mt-3" id="monthlyInvestmentResult"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card p-4">
+                    <h4 id="section3_title">3️⃣ <span id="crypto_asset_allocation">Crypto Asset Allocation</span></h4>
+                    <label for="investmentStrategy" class="mt-2" id="label_inv_strategy">Select Investment
+                        Strategy:</label>
+                    <select id="investmentStrategy" class="form-select" onchange="calculateInvestment()">
+                        <option value="40-40-20" selected id="option_inv_40_40_20"></option>
+                        <option value="50-30-20" id="option_inv_50_30_20"></option>
+                        <option value="60-30-10" id="option_inv_60_30_10"></option>
+                    </select>
+                    <div class="result mt-3" id="assetAllocationResult"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function switchLanguage() {
+            let currentLang = document.documentElement.lang === "en" ? "vi" : "en";
+            document.documentElement.lang = currentLang;
+
+            let translations = {
+                en: {
+                    capital_management: "Capital Management",
+                    investment_allocation: "Investment Allocation",
+                    label_investment: "Investment Amount:",
+                    section3_title: "3️⃣ Crypto Asset Allocation",
+                    label_total: "Enter Total Amount:",
+                    label_strategy: "Select Capital Strategy:",
+                    label_months: "Investment Duration (Months):",
+                    label_inv_strategy: "Select Investment Strategy:",
+                    title: "💰 Capital & Crypto Investment Management",
+                    option_30_50_20: "30-50-20 (Essentials-Investment-Savings)",
+                    option_40_40_20: "40-40-20 (Balanced Investment)",
+                    option_50_30_20: "50-30-20 (Aggressive Investment)",
+                    option_inv_40_40_20: "40-40-20 (Balanced Crypto Allocation)",
+                    option_inv_50_30_20: "50-30-20 (Growth-Oriented)",
+                    option_inv_60_30_10: "60-30-10 (High-Risk High-Reward)",
+                    section3_title: "3️⃣ Crypto Asset Allocation",
+                    
+                    asset_total: "Total Investment:",
+                    asset_top: "💎 Top Coins",
+                    asset_mid: "🚀 Mid Cap",
+                    asset_low: "🔥 Low Cap",
+                },
+                vi: {
+                    capital_management: "Quản Lý Vốn",
+                    investment_allocation: "Phân Bổ Đầu Tư",
+                    label_investment: "Số Tiền Đầu Tư:",
+                    section3_title: "3️⃣ Phân Bổ Tài Sản Crypto",
+                    label_total: "Nhập Tổng Số Tiền:",
+                    label_strategy: "Chọn Chiến Lược Quản Lý Vốn:",
+                    label_months: "Thời Gian Đầu Tư (Tháng):",
+                    label_inv_strategy: "Chọn Chiến Lược Đầu Tư:",
+                    title: "💰 Quản Lý Vốn & Đầu Tư Crypto",
+                    option_30_50_20: "30-50-20 (Sinh hoạt - Đầu tư - Tiết kiệm)",
+                    option_40_40_20: "40-40-20 (Đầu tư cân bằng)",
+                    option_50_30_20: "50-30-20 (Đầu tư mạo hiểm)",
+                    option_inv_40_40_20: "40-40-20 (Phân bổ Crypto cân bằng)",
+                    option_inv_50_30_20: "50-30-20 (Tăng trưởng nhanh)",
+                    option_inv_60_30_10: "60-30-10 (Rủi ro cao, lợi nhuận cao)",
+                    section3_title: "3️⃣ Phân Bổ Tài Sản Crypto",
+                    asset_total: "Tổng Đầu Tư:",
+                    asset_top: "💎 Đồng Coin Lớn",
+                    asset_mid: "🚀 Vốn Hóa Trung Bình",
+                    asset_low: "🔥 Vốn Hóa Nhỏ",
+                }
+            };
+
+            for (let key in translations[currentLang]) {
+                if (document.getElementById(key)) {
+                    document.getElementById(key).innerText = translations[currentLang][key];
+                }
+            }
+            calculateInvestment();
+        }
+
+        window.onload = switchLanguage;
+
+        function formatNumber(num) {
+            return num.toLocaleString(document.documentElement.lang === "en" ? "en-US" : "vi-VN");
+        }
+
+        function calculateBudget() {
+            let totalAmount = parseFloat(document.getElementById("totalAmount").value);
+            let strategy = document.getElementById("capitalStrategy").value;
+            let [essentialsRatio, investmentRatio, savingsRatio] = strategy.split("-").map(x => x / 100);
+            let essentials = totalAmount * essentialsRatio;
+            let investment = totalAmount * investmentRatio;
+            let savings = totalAmount * savingsRatio;
+            document.getElementById("investmentAmount").value = investment;
+            document.getElementById("budgetResult").innerHTML = `<p>💰 Essentials: ${formatNumber(essentials)}</p>
+                                                           <p>📈 Investment: ${formatNumber(investment)}</p>
+                                                           <p>💼 Savings: ${formatNumber(savings)}</p>`;
+            calculateInvestment();
+        }
+
+        var formatter = new Intl.NumberFormat("de-DE");
+
+        function calculateInvestment() {
+            let investmentAmount = parseFloat(document.getElementById("investmentAmount").value);
+            let months = parseInt(document.getElementById("months").value);
+            let strategy = document.getElementById("investmentStrategy").value;
+            let allocation = strategy.split("-").map(x => x / 100);
+            
+            let translations = {
+                en: { asset_total: "Total Investment:", asset_top: "💎 Top Coins", asset_mid: "🚀 Mid Cap", asset_low: "🔥 Low Cap", per_month: "Per Month", asset_monthly: "Monthly Investment", asset: "USD" },
+                vi: { asset_total: "Tổng Đầu Tư:", asset_top: "💎 Đồng Coin Lớn", asset_mid: "🚀 Vốn Hóa Trung Bình", asset_low: "🔥 Vốn Hóa Nhỏ", per_month: "Mỗi tháng", asset_monthly: "Đầu Tư Hàng Tháng", asset: "VND" }
+            };
+            let lang = document.documentElement.lang;
+            let labels = translations[lang];
+
+            let output = `<p><strong>${labels.asset_total} ${investmentAmount.toLocaleString()}</strong></p>`;
+            let categories = [labels.asset_top, labels.asset_mid, labels.asset_low];
+            var montlyInvest;
+            allocation.forEach((percent, index) => {
+                let total = investmentAmount * percent;
+                
+                let perMonth = total / months;
+                output += `<p>${categories[index]} (${percent * 100}%): ${labels.asset_total} ${total.toLocaleString()} | ${labels.per_month}: ${formatter.format(parseFloat(perMonth))} ${labels.asset}</p>`;
+            });
+            document.getElementById("assetAllocationResult").innerHTML = output;
+            montlyInvest = investmentAmount / months
+            
+            document.getElementById("monthlyInvestmentResult").innerHTML = `<p>${labels.asset_monthly}: ${formatter.format(parseFloat(montlyInvest))} ${labels.asset}</p>`;
+        }
+    </script>
+
+</body>
+
+</html>
